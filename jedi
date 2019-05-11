@@ -1,0 +1,37 @@
+#!/bin/bash
+
+cambiar_estat=true
+tall=false
+char=100
+
+while true 
+do
+
+charge=$(cat /sys/class/power_supply/BAT0/capacity)
+
+if [ $cambiar_estat =  true ]
+then
+if [ $char -gt $charge ]
+then  
+tall=true
+echo "tall corrent"
+else 
+echo "tornar corrent"
+tall=false
+fi
+cambiar_estat=false
+char=$charge
+fi
+ 
+
+if [ $tall = true ] && [ $char -lt $charge  ] 
+then
+cambiar_estat=true 
+fi
+
+if [  $tall = false ] && [ $char -gt $charge  ] 
+then
+cambiar_estat=true
+fi
+done
+
